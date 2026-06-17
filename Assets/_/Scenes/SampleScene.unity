@@ -164,16 +164,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facba0d962fde3e4aa75ed2212c8638a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.Combatant
-  CombatantName: Villain
-  MaxHealth: 100
-  Health: 100
-  Speed: 8
+  m_CombatantName: Villain
+  m_MaxHealth: 100
+  m_Health: 100
+  m_Speed: 10
+  m_IsPlayerTeam: 0
   TimelinePosition: 0
   IsCasting: 0
   CastTimer: 0
   CurrentAction: {fileID: 0}
   Target: {fileID: 0}
-  IsPlayerTeam: 0
+  IsWaitingForInput: 0
 --- !u!212 &453197827
 SpriteRenderer:
   serializedVersion: 2
@@ -499,16 +500,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facba0d962fde3e4aa75ed2212c8638a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.Combatant
-  CombatantName: Hero
-  MaxHealth: 100
-  Health: 100
-  Speed: 30
+  m_CombatantName: Hero
+  m_MaxHealth: 100
+  m_Health: 100
+  m_Speed: 10
+  m_IsPlayerTeam: 1
   TimelinePosition: 0
   IsCasting: 0
   CastTimer: 0
   CurrentAction: {fileID: 0}
   Target: {fileID: 0}
-  IsPlayerTeam: 1
+  IsWaitingForInput: 1
 --- !u!212 &1638911336
 SpriteRenderer:
   serializedVersion: 2
@@ -578,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743419779}
   - component: {fileID: 1743419778}
+  - component: {fileID: 1743419780}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -597,8 +600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1204b329866b7d24e9645b585d012b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.CombatManager
-  CastZoneStart: 80
-  TestActions:
+  m_CastZoneStart: 80
+  m_TimelineEnd: 100
+  m_TestActions:
   - {fileID: 11400000, guid: 7845bfcd8b3da4541af974b3fee31227, type: 2}
   - {fileID: 11400000, guid: 5532ce2638a6f724a89d470bd83780c2, type: 2}
 --- !u!4 &1743419779
@@ -618,6 +622,23 @@ Transform:
   - {fileID: 453197825}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1743419780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743419777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c21dc4d700b0f42b2421517184ae20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.CombatDebugInput
+  m_CombatManager: {fileID: 1743419778}
+  m_Hero: {fileID: 1638911335}
+  m_Villain: {fileID: 453197826}
+  m_AttackAction: {fileID: 11400000, guid: 7845bfcd8b3da4541af974b3fee31227, type: 2}
+  m_HealAction: {fileID: 11400000, guid: aaf3cb3bc719c234eb243dc62300d48a, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

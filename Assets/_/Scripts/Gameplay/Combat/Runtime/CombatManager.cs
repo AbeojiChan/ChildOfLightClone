@@ -185,17 +185,28 @@ namespace Combat.Runtime
 
         private void ExecuteStoredAction(Combatant attacker)
         {
+            // SÉCURITÉ : Si l'attaquant a été interrompu ou est mort pendant cette frame avant l'impact
+            if (attacker == null || !attacker.IsAlive() || attacker.CurrentAction == null)
+            {
+                // On sort proprement sans crasher
+                attacker.ResetTimeline();
+                return;
+            }
+
             Combatant target = attacker.Target;
 
+            // On vérifie que la cible pré-assignée est toujours valide et en vie
             if (target != null && target.IsAlive())
             {
                 Debug.Log($"⚔️ [EXECUTE] {attacker.CombatantName} releases '{attacker.CurrentAction.ActionName}' on {target.CombatantName}!");
 
+                // Gestion de l'interruption : Est-ce que l'action peut interrompre ET la cible est en cast ?
                 if (attacker.CurrentAction.CanBeInterrupted && target.IsCasting)
                 {
                     InterruptCombatant(target, attacker.CurrentAction.InterruptPenalty);
                 }
 
+                // Application des effets sécurisée
                 if (attacker.CurrentAction.IsHeal)
                 {
                     target.Health = Mathf.Min(target.MaxHealth, target.Health + attacker.CurrentAction.Damage);
@@ -206,6 +217,7 @@ namespace Combat.Runtime
                 }
             }
 
+            // Reset complet après exécution ou si la cible est manquante
             attacker.ResetTimeline();
         }
 
