@@ -17,18 +17,19 @@ namespace Combat.Runtime
         private void Start()
         {
             CacheTeams();
+            ResetAllTimelinesOnStart();
         }
 
         private void Update()
         {
             ProcessTimelineDrivers();
         }
+
+
+
         #endregion
 
         #region Main API
-        /// <summary>
-        /// Méthode publique à appeler depuis l'UI ou un gestionnaire d'input pour valider le choix du joueur.
-        /// </summary>
         public void SelectActionForPlayer(Combatant player, CombatAction selectedAction, Combatant selectedTarget)
         {
             if (player == null || !player.IsAlive() || !player.IsWaitingForInput) return;
@@ -41,10 +42,6 @@ namespace Combat.Runtime
 
             Debug.Log($"🎯 [PLAYER INPUT] {player.CombatantName} selected '{selectedAction.ActionName}' targeting {selectedTarget.CombatantName}. Entering cast zone.");
         }
-
-        /// <summary>
-        /// Applique l'interruption directe sur un combattant cible s'il est en train de caster.
-        /// </summary>
         public void InterruptCombatant(Combatant target, float penalty)
         {
             if (target == null || !target.IsCasting) return;
@@ -98,7 +95,6 @@ namespace Combat.Runtime
 
         private void ProcessTimelineDrivers()
         {
-            // Traitement de l'équipe joueur
             for (int i = 0; i < m_PlayerTeam.Length; i++)
             {
                 if (m_PlayerTeam[i].IsAlive())
@@ -106,8 +102,6 @@ namespace Combat.Runtime
                     EvaluateCombatantState(m_PlayerTeam[i]);
                 }
             }
-
-            // Traitement de l'équipe ennemie
             for (int i = 0; i < m_EnemyTeam.Length; i++)
             {
                 if (m_EnemyTeam[i].IsAlive())
@@ -119,10 +113,7 @@ namespace Combat.Runtime
 
         private void EvaluateCombatantState(Combatant combatant)
         {
-            // Si le joueur est bloqué au menu de sélection, sa timeline n'avance plus, mais le reste du monde oui.
             if (combatant.IsWaitingForInput) return;
-
-            // Cas 1 : Progression standard dans la Waiting Zone
             if (!combatant.IsCasting)
             {
                 combatant.TimelinePosition += combatant.Speed * Time.deltaTime;
@@ -133,7 +124,6 @@ namespace Combat.Runtime
                     HandleSeuilReached(combatant);
                 }
             }
-            // Cas 2 : Incantation active dans la Casting Zone
             else
             {
                 combatant.CastTimer += Time.deltaTime;
@@ -152,13 +142,11 @@ namespace Combat.Runtime
         {
             if (combatant.IsPlayerTeam)
             {
-                // C'est un joueur : on fige sa progression individuelle et on lève le flag pour l'UI
                 combatant.IsWaitingForInput = true;
                 Debug.Log($"🔔 [WAITING FOR INPUT] {combatant.CombatantName} reached the Cast Zone threshold! Waiting for player selection...");
             }
             else
             {
-                // C'est l'IA : exécution immédiate selon tes directives (tirage instantané)
                 ExecuteEnemyAI(combatant);
             }
         }
@@ -170,11 +158,9 @@ namespace Combat.Runtime
             enemy.IsCasting = true;
             enemy.CastTimer = 0f;
 
-            // Choix de l'action de l'IA (aléatoire parmi le pool de test)
             int randomActionIdx = Random.Range(0, m_TestActions.Length);
             enemy.CurrentAction = m_TestActions[randomActionIdx];
 
-            // Choix explicite de la cible (un joueur vivant aléatoire)
             enemy.Target = ResolveRandomAliveOpponent(enemy.IsPlayerTeam);
 
             if (enemy.Target != null)
@@ -185,39 +171,31 @@ namespace Combat.Runtime
 
         private void ExecuteStoredAction(Combatant attacker)
         {
-            // SÉCURITÉ : Si l'attaquant a été interrompu ou est mort pendant cette frame avant l'impact
             if (attacker == null || !attacker.IsAlive() || attacker.CurrentAction == null)
             {
-                // On sort proprement sans crasher
-                attacker.ResetTimeline();
+                attacker?.ResetTimeline();
                 return;
             }
 
             Combatant target = attacker.Target;
 
-            // On vérifie que la cible pré-assignée est toujours valide et en vie
             if (target != null && target.IsAlive())
             {
                 Debug.Log($"⚔️ [EXECUTE] {attacker.CombatantName} releases '{attacker.CurrentAction.ActionName}' on {target.CombatantName}!");
 
-                // Gestion de l'interruption : Est-ce que l'action peut interrompre ET la cible est en cast ?
-                if (attacker.CurrentAction.CanBeInterrupted && target.IsCasting)
+                if (attacker != target && attacker.CurrentAction.CanBeInterrupted && target.IsCasting)
                 {
                     InterruptCombatant(target, attacker.CurrentAction.InterruptPenalty);
                 }
-
-                // Application des effets sécurisée
-                if (attacker.CurrentAction.IsHeal)
+                if (attacker.CurrentAction != null && attacker.CurrentAction.IsHeal)
                 {
                     target.Health = Mathf.Min(target.MaxHealth, target.Health + attacker.CurrentAction.Damage);
                 }
-                else
+                else if (attacker.CurrentAction != null)
                 {
                     target.Health = Mathf.Max(0, target.Health - attacker.CurrentAction.Damage);
                 }
             }
-
-            // Reset complet après exécution ou si la cible est manquante
             attacker.ResetTimeline();
         }
 
@@ -250,6 +228,36 @@ namespace Combat.Runtime
 
             return null;
         }
+
+        public CombatAction[] GetTestActionsPool()
+        {
+            return m_TestActions;
+        }
+
+        private void ResetAllTimelinesOnStart()
+        {
+            // Reset de l'équipe joueur
+            for (int i = 0; i < m_PlayerTeam.Length; i++)
+            {
+                if (m_PlayerTeam[i] != null)
+                {
+                    m_PlayerTeam[i].ResetTimeline();
+                }
+            }
+
+            // Reset de l'équipe ennemie
+            for (int i = 0; i < m_EnemyTeam.Length; i++)
+            {
+                if (m_EnemyTeam[i] != null)
+                {
+                    m_EnemyTeam[i].ResetTimeline();
+                }
+            }
+
+            Debug.Log("🧼 [COMBAT INITIALIZATION] All combatant timelines have been strictly reset to 0.");
+
+        }
+
         #endregion
 
         #region Private and Protected

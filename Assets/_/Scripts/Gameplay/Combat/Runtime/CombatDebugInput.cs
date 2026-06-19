@@ -20,7 +20,6 @@ namespace Combat.Runtime
         {
             if (m_CombatManager == null || m_Hero == null) return;
 
-            // On ne prend les inputs que si le héros réclame une action
             if (m_Hero.IsWaitingForInput)
             {
                 HandlePlayerSimulation();
@@ -31,7 +30,7 @@ namespace Combat.Runtime
         #region Tools and Utilities
         private void HandlePlayerSimulation()
         {
-            // Appuie sur A pour attaquer l'ennemi
+
             if (Input.GetKeyDown(KeyCode.A))
             {
                 if (m_AttackAction != null && m_Villain != null)
@@ -40,7 +39,6 @@ namespace Combat.Runtime
                     m_CombatManager.SelectActionForPlayer(m_Hero, m_AttackAction, m_Villain);
                 }
             }
-            // Appuie sur Z pour se soigner soi-même
             else if (Input.GetKeyDown(KeyCode.Z))
             {
                 if (m_HealAction != null)

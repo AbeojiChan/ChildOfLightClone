@@ -167,7 +167,7 @@ MonoBehaviour:
   m_CombatantName: Villain
   m_MaxHealth: 100
   m_Health: 100
-  m_Speed: 10
+  m_Speed: 8
   m_IsPlayerTeam: 0
   TimelinePosition: 0
   IsCasting: 0
@@ -455,6 +455,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1059273665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1059273668}
+  - component: {fileID: 1059273667}
+  - component: {fileID: 1059273666}
+  m_Layer: 0
+  m_Name: '[UI]_CombatInterface'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1059273666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059273665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c171f38d5a12c244ea7686eff4ec3cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.CombatTimelineUIToolkit
+  m_CombatManager: {fileID: 1743419778}
+  m_TimelineEnd: 100
+  m_HeroIcon: {fileID: 7257567913506708742, guid: c6d976c5e7cc5c743bd92830e73295f5, type: 3}
+  m_VillainIcon: {fileID: 7384290322352760091, guid: 050976b8d8133e84a91f4ab67eb0dc00, type: 3}
+--- !u!114 &1059273667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059273665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: ae33a2e86a0e692458a4741bfe246422, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: df12c8f03fdc0bb4997689cdbb7e9833, type: 3}
+  m_SortingOrder: 0
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!4 &1059273668
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059273665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.29333, y: 1.74024, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1638911333
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +575,7 @@ MonoBehaviour:
   m_CombatantName: Hero
   m_MaxHealth: 100
   m_Health: 100
-  m_Speed: 10
+  m_Speed: 12
   m_IsPlayerTeam: 1
   TimelinePosition: 0
   IsCasting: 0
@@ -580,7 +652,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1743419779}
   - component: {fileID: 1743419778}
-  - component: {fileID: 1743419780}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -622,23 +693,6 @@ Transform:
   - {fileID: 453197825}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1743419780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1743419777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c21dc4d700b0f42b2421517184ae20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Combat.Runtime::Combat.Runtime.CombatDebugInput
-  m_CombatManager: {fileID: 1743419778}
-  m_Hero: {fileID: 1638911335}
-  m_Villain: {fileID: 453197826}
-  m_AttackAction: {fileID: 11400000, guid: 7845bfcd8b3da4541af974b3fee31227, type: 2}
-  m_HealAction: {fileID: 11400000, guid: aaf3cb3bc719c234eb243dc62300d48a, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -646,3 +700,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1743419779}
+  - {fileID: 1059273668}

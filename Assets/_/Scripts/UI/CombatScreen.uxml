@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="CombatRoot" style="flex-grow: 1; justify-content: flex-end; padding-bottom: 30px; padding-left: 50px; padding-right: 50px; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="ActionMenuPanel" style="width: 350px; background-color: rgba(20, 20, 20, 0.9); border-width: 2px; border-color: rgb(80, 80, 80); border-radius: 8px; padding: 15px; margin-bottom: 20px; display: none; flex-direction: column;">
+            <ui:Label name="MenuTitle" text="HERO TURN" style="color: rgb(255, 255, 255); -unity-font-style: bold; font-size: 16px; margin-bottom: 10px; border-bottom-width: 1px; border-color: rgb(60, 60, 60); padding-bottom: 5px;"/>
+            <ui:Label text="Select Action:" style="color: rgb(180, 180, 180); font-size: 12px; margin-bottom: 5px;"/>
+            <ui:VisualElement name="ActionButtonsContainer" style="flex-direction: row; flex-wrap: wrap; margin-bottom: 15px;"/>
+            <ui:Label text="Select Target:" style="color: rgb(180, 180, 180); font-size: 12px; margin-bottom: 5px;"/>
+            <ui:VisualElement name="TargetButtonsContainer" style="flex-direction: row; flex-wrap: wrap;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="TimelineTrack" style="height: 24px; background-color: rgb(30, 30, 30); border-radius: 12px; width: 100%; position: relative; border-width: 2px; border-color: rgb(60, 60, 60);">
+            <ui:VisualElement name="WaitingZoneVisual" style="position: absolute; left: 0; width: 80%; height: 100%; background-color: rgba(0, 150, 255, 0.15); border-radius: 10px 0 0 10px;"/>
+            <ui:VisualElement name="CastingZoneVisual" style="position: absolute; left: 80%; width: 20%; height: 100%; background-color: rgba(255, 0, 150, 0.2); border-radius: 0 10px 10px 0;"/>
+            <ui:VisualElement name="ThresholdLine" style="position: absolute; left: 80%; width: 2px; height: 100%; background-color: rgb(255, 255, 255); opacity: 0.5;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
